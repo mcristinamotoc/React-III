@@ -1,44 +1,30 @@
+import { Link } from "react-router-dom";
 import React, { Component } from "react";
 import App from "../App";
 import { Jumbotron, Button } from "bootstrap-4-react";
 
 // Create this new welcome component and make it show by default. We used conditional rendering.
 
-class Welcome extends Component {
-  state = {
-    isAccessible: false,
-  };
+export default () => {
 
-  render() {
-    if (this.state.isAccessible == true) {
-      return (
-        <div>
-          <App />
-        </div>
-      );
-    }
+  // This welcome component have an access button, when clicked, accesses the jokes page.
 
-    const welcomePage = this.state.isAccessible ? (
-      <App />
-    ) : (
+  return (
+    <Jumbotron
+      className="w-50 h-50"
+      bg="light"
+      text="center"
+      my="4"
+      mx="auto"
+      align="centered">
+
       <div>
         <h1 className="text-center text-info"> Welcome</h1>
       </div>
-    );
 
-    // This welcome component have an access button, when clicked, accesses the jokes page.
+       {/* Define the routes of the application and use them in this access button. */}
 
-    return (
-      <Jumbotron
-        className="w-50 h-50"
-        bg="light"
-        text="center"
-        my="4"
-        mx="auto"
-        align="centered">
-        
-        {welcomePage}
-
+      <Link to="/HomePage">
         <Button
           info
           as="input"
@@ -46,14 +32,8 @@ class Welcome extends Component {
           value="Enter"
           mt="4"
           align="centered"
-          onClick={() => {
-            this.setState({ isAccessible: !this.state.isAccessible });
-          }}>
-
-        </Button>
-      </Jumbotron>
-    );
-  }
-}
-
-export default Welcome;
+        ></Button>
+      </Link>
+    </Jumbotron>
+  );
+};
