@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { Container, Jumbotron, Button } from "bootstrap-4-react";
+import React, { useState, useEffect } from "react";
+import { Container, Button } from "bootstrap-4-react";
 import axios from "axios";
 
 export default () => {
 
-  // This function will load a request from the API and show it to the user when he clicks on the  button.
-  
+  // This function will load a request from the jokes API and show it to the user when he clicks on the  button.
+
   const [joke, setJoke] = useState("");
   const getJoke = () => {
     axios
@@ -19,6 +19,20 @@ export default () => {
       });
   };
 
+  // The Weather information API will be displayed in the beginning
+
+  const [getWeather, setWeather] = useState({});
+
+  useEffect(() => {
+    axios
+      .get(
+        "https://api.openweathermap.org/data/2.5/weather?q=Barcelona,es&units=metric&lang=ca&APPID=e50d99da7c6cb79a777875ea8f0a5b6e"
+      )
+
+      .then((response) => {
+        setWeather(response.data);
+      });
+  }, []);
 
   // Set Background Image
   const backgroundImg = {
@@ -33,20 +47,31 @@ export default () => {
     // Set the background image, title, joke space and next joke button.
 
     <div style={backgroundImg}>
-      <Container my="2">
-        <h1 class="text-center text-info my-3">Web D'Acudits</h1>
-        <div class="wheather mx-2" id="wheather"></div>
 
-        <Jumbotron
+      <Container>
+        <h1 className="text-center text-info">Web D'Acudits</h1>
+        
+    
+    {/* Add the weather information  */}
+        <div className=" text-left">
+          {getWeather.main && (
+            <div>
+              <h5>{getWeather.name}</h5>
+              {getWeather.main.temp} º C
+              <p>{getWeather.weather[0].description} </p>
+            </div>
+          )}
+        </div>
+
+        <Container
           className="w-50 h-25"
           bg="light"
           text="center"
-          mx="auto"
-          mb="3">
+          mx="auto"align="centered">
 
-          <h4 className=" text-center mb-4"> Preparat per riure? &#129315;</h4>
+          <h4 className=" text-center mb-3"> Preparat per riure? &#129315;</h4>
 
-          <div class="text-center" my-3> {joke} </div>
+          <div className="text-center my-2"> {joke} </div>
 
           <Button
             info
@@ -58,8 +83,7 @@ export default () => {
             onClick={getJoke}>
 
             </Button>
-
-        </Jumbotron>
+        </Container>
       </Container>
     </div>
   );
